@@ -28,7 +28,7 @@ export HISTCONTROL=ignoredups
 # LIQUID PROMPT
 # In Bash shells, PROMPT_DIRTRIM is the number of directories to keep at the end
 # of the displayed path (if "\w" is present in the PS1 var).
-PROMPT_DIRTRIM=2
+# PROMPT_DIRTRIM=3
 
 #################
 # CONFIGURATION #
@@ -96,6 +96,8 @@ _lp_source_config()
     LP_COLOR_USER_ROOT=${BOLD_YELLOW}
     LP_COLOR_SSH=${BLUE}
 
+    LP_PWD='$(echo -n "${PWD/#$HOME/~}" | awk -F "/" '"'"'{ if (length($0) > 14) { if (NF>4) print $1 "/" $2 "/.../" $(NF-1) "/" $NF; else if (NF>3) print $1 "/" $2 "/.../" $NF; else print $1 "/.../" $NF; } else print $0;}'"'"')'
+
 }
 # do source config files
 _lp_source_config
@@ -108,19 +110,19 @@ unset -f _lp_source_config
 if (( EUID != 0 )); then  # if user is not root
     # if user is not login user
     if [[ "${USER}" != "$(logname 2>/dev/null || echo "$LOGNAME")" ]]; then
-        LP_USER="${LP_COLOR_USER_ALT}\u${NO_COL}"
+        LP_USER="${LP_COLOR_USER_ALT}\u${NO_COL} "
     else
         LP_USER=""
     fi
 else # root!
-    LP_USER="${LP_COLOR_USER_ROOT}\u${NO_COL}"
+    LP_USER="${LP_COLOR_USER_ROOT}\u${NO_COL} "
     LP_COLOR_MARK="${LP_COLOR_MARK_ROOT}"
     LP_COLOR_PATH="${LP_COLOR_PATH_ROOT}"
 fi
 
 if [[ -n "${SSH_CLIENT-}${SSH2_CLIENT-}${SSH_TTY-}" ]]; then
     # If we want a different color for each host
-    LP_HOST="${LP_COLOR_SSH}\h${NO_COL}"
+    LP_HOST="${LP_COLOR_SSH}\h${NO_COL} "
 else
     LP_HOST="" # no hostname if local
 fi
@@ -128,10 +130,12 @@ fi
 ########################
 # Construct the prompt #
 ########################
-PS1="[${LP_USER}${LP_HOST}${LP_COLOR_PATH}\\w$NO_COL]"
+PS1="[${LP_USER}${LP_HOST}${LP_COLOR_PATH}"
+PS1+='$(eval "echo ${LP_PWD}")'
+PS1+="$NO_COL]"
 # add return code and prompt mark
-PS1+="\$(err=\$? && [[ \$err != 0 ]] && echo \" $LP_COLOR_ERR\$err$NO_COL\")"
-PS1+=" ${LP_COLOR_MARK}\$${NO_COL} "
+PS1+="\$(err=\$? && [[ \$err != 0 ]] && echo \" $LP_COLOR_ERR\$err$NO_COL \")"
+PS1+="${LP_COLOR_MARK}\$${NO_COL} "
 
 # man page colors
 man() {
