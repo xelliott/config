@@ -96,7 +96,7 @@ _lp_source_config()
     LP_COLOR_USER_ROOT=${BOLD_YELLOW}
     LP_COLOR_SSH=${BLUE}
 
-    LP_PWD='$(echo -n "${PWD/#$HOME/~}" | awk -F "/" '"'"'{ if (length($0) > 14) { if (NF>4) print $1 "/" $2 "/.../" $(NF-1) "/" $NF; else if (NF>3) print $1 "/" $2 "/.../" $NF; else print $1 "/.../" $NF; } else print $0;}'"'"')'
+    LP_PWD='$(echo -n "${PWD/#$HOME/'\''~'\''}" | awk -F "/" '"'"'{ if (length($0) > 14) { if (NF>4) print $1 "/" $2 "/.../" $(NF-1) "/" $NF; else if (NF>3) print $1 "/" $2 "/.../" $NF; else print $1 "/.../" $NF; } else print $0;}'"'"')'
 
 }
 # do source config files
