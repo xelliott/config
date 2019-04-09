@@ -9,6 +9,8 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
+CDIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
+
 # Bash won't get SIGWINCH if another process is in the foreground.
 # Enable checkwinsize so that bash will check the terminal size when
 # it regains control.  #65623
@@ -157,6 +159,7 @@ alias ll='ls -l'
 alias la='ls -al'
 alias mkdir='mkdir -p'
 
+eval `dircolors ${CDIR}/dircolors.ansi-universal`
 # Enviroment variables
 # Some applications read the EDITOR variable to determine your favourite text
 # editor. So uncomment the line below and enter the editor of your choice :-)
