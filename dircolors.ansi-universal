@@ -207,6 +207,7 @@ EXEC 01;31  # Unix
 .org 32
 .md 32
 .mkd 32
+.rst 32
 
 # Source text
 .h 32
@@ -216,6 +217,14 @@ EXEC 01;31  # Unix
 .cc 32
 .cpp 32
 .cxx 32
+.f 32
+.f90 32
+.f95 32
+.f03 32
+.F 32
+.F90 32
+.F95 32
+.F03 32
 .objc 32
 .cl 32
 .sh 32
@@ -260,6 +269,7 @@ EXEC 01;31  # Unix
 .p 32
 .pod 32
 .tex 32
+.bib 32
 .go 32
 .sql 32
 .csv 32
@@ -355,23 +365,23 @@ EXEC 01;31  # Unix
 ### Misc
 
 # Binary document formats and multimedia source
-.doc 31
-.docx 31
-.rtf 31
-.odt 31
-.dot 31
-.dotx 31
-.ott 31
-.xls 31
-.xlsx 31
-.ods 31
-.ots 31
-.ppt 31
-.pptx 31
-.odp 31
-.otp 31
-.fla 31
-.psd 31
+# .doc 31
+# .docx 31
+# .rtf 31
+# .odt 31
+# .dot 31
+# .dotx 31
+# .ott 31
+# .xls 31
+# .xlsx 31
+# .ods 31
+# .ots 31
+# .ppt 31
+# .pptx 31
+# .odp 31
+# .otp 31
+# .fla 31
+# .psd 31
 
 # Archives, compressed
 .7z   1;35
@@ -467,11 +477,11 @@ EXEC 01;31  # Unix
 
 # The brightmagenta (Solarized: purple) color is free for you to use for your
 # custom file type
-.gpg 34
-.gpg 34
-.pgp 34
-.asc 34
-.3des 34
-.aes 34
-.enc 34
-.sqlite 34
+# .gpg 34
+# .gpg 34
+# .pgp 34
+# .asc 34
+# .3des 34
+# .aes 34
+# .enc 34
+# .sqlite 34
