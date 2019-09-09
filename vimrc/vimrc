@@ -20,9 +20,10 @@ let g:plugin_path = '~/.vim/plugged'
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !mkdir -p glob(g:plugin_path)
 endif
 
-call plug#begin(glob(g:plugin_path))
+call plug#begin(g:plugin_path)
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
