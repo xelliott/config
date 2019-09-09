@@ -1,0 +1,55 @@
+" set runtimepath+=~/.vim_runtime
+
+" source ~/.vim_runtime/vimrcs/basic.vim
+" source ~/.vim_runtime/vimrcs/filetypes.vim
+" try
+" source ~/.vim_runtime/my_plugins_config.vim
+" catch
+" endtry
+" source ~/.vim_runtime/vimrcs/plugins_config.vim
+" source ~/.vim_runtime/vimrcs/extended.vim
+
+" try
+" source ~/.vim_runtime/my_configs.vim
+" catch
+" endtry
+
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let g:plugin_path = '~/.vim/plugged'
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+call plug#begin(glob(g:plugin_path))
+
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'morhetz/gruvbox'
+" Plug 'NLKNguyen/papercolor-theme'
+
+call plug#end()
+
+" echo s:path
+exec ":source " . s:path . "/basic.vim"
+exec ":source " . s:path . "/plugin_config.vim"
+exec ":source " . s:path . "/autocomplete.vim"
+exec ":source " . s:path . "/filetypes.vim"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => theme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if !empty(glob(g:plugin_path . '/gruvbox/colors/gruvbox.vim'))
+  set background=dark
+  colorscheme gruvbox
+  let g:airline_theme='gruvbox'
+endif
+
+" if !empty(glob(g:plugin_path . '/papercolor-theme/colors/PaperColor.vim'))
+"   set background=dark
+"   colorscheme PaperColor
+"   " let g:airline_theme='papercolor'
+" endif
+
