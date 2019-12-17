@@ -11,6 +11,10 @@ fi
 
 CDIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
 
+if ((BASH_VERSINFO[0] == 4)) && ((BASH_VERSINFO[1] == 2)); then
+  shopt -s direxpand
+fi
+
 # Bash won't get SIGWINCH if another process is in the foreground.
 # Enable checkwinsize so that bash will check the terminal size when
 # it regains control.  #65623
@@ -165,6 +169,7 @@ eval `dircolors ${CDIR}/dircolors.ansi-universal`
 # editor. So uncomment the line below and enter the editor of your choice :-)
 # export EDITOR=/usr/bin/vim
 export EDITOR=vim
+export LESS='-i'
 
 if [ -f $HOME/.bash_local ]; then                                                    
     source $HOME/.bash_local
