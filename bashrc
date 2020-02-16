@@ -169,7 +169,7 @@ eval `dircolors ${CDIR}/dircolors.ansi-universal`
 # editor. So uncomment the line below and enter the editor of your choice :-)
 # export EDITOR=/usr/bin/vim
 export EDITOR=vim
-export LESS='-i'
+export LESS='-i -R'
 
 if [ -f $HOME/.bash_local ]; then                                                    
     source $HOME/.bash_local
