@@ -13,9 +13,12 @@ if !empty(glob(g:plugin_path . '/vim-airline/autoload/airline.vim'))
 endif
 
 let g:ale_fortran_language_server_use_global = 1
-" let g:ale_linters_explicit = 1
+let g:ale_python_pylint_options = '--disable=C'
+
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
 \   'fortran': ['language_server'],
+\   'python': ['flake8', 'mypy', 'pylint', 'pyright']
 \}
 
 nmap gd :ALEGoToDefinition -tab<CR>
