@@ -12,6 +12,9 @@ if !empty(glob(g:plugin_path . '/vim-airline/autoload/airline.vim'))
   let g:airline_symbols.maxlinenr = ''
 endif
 
+autocmd FileType c setlocal commentstring=//\ %s
+autocmd FileType cpp setlocal commentstring=//\ %s
+
 let g:ale_fortran_language_server_use_global = 1
 let g:ale_python_pylint_options = '--disable=C'
 
