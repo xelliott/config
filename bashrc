@@ -130,6 +130,8 @@ fi
 if [[ -n "${SSH_CLIENT-}${SSH2_CLIENT-}${SSH_TTY-}" ]]; then
     # If we want a different color for each host
     LP_HOST="${LP_COLOR_SSH}\h${NO_COL} "
+elif [[ "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
+    LP_HOST="${LP_COLOR_SSH}PBS \h${NO_COL} "
 else
     LP_HOST="" # no hostname if local
 fi
