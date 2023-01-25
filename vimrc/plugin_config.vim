@@ -9,6 +9,8 @@ if !empty(glob(g:plugin_path . '/vim-airline/autoload/airline.vim'))
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
+  let g:airline_symbols.linenr = ''
+  let g:airline_symbols.linenr = '☰'
   let g:airline_symbols.maxlinenr = ''
 endif
 
@@ -32,3 +34,4 @@ nnoremap <silent> K :ALEHover<CR>
 nnoremap <C-p> :<C-u>FZF<CR>
 nnoremap <Leader>pf :Files %:p:h<CR>
 
+let g:neoformat_enabled_python = ['black']
