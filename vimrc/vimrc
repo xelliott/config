@@ -27,15 +27,17 @@ call plug#begin(g:plugin_path)
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
-Plug 'morhetz/gruvbox'
-Plug 'sainnhe/gruvbox-material'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'morhetz/gruvbox'
+" Plug 'sainnhe/gruvbox-material'
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'kassio/neoterm'
+Plug 'sbdchd/neoformat'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
-" Plug 'NLKNguyen/papercolor-theme'
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -54,20 +56,22 @@ exec ":source " . s:path . "/filetypes.vim"
 "   let g:airline_theme='gruvbox'
 " endif
 
-if !empty(glob(g:plugin_path . '/gruvbox-material/colors/gruvbox-material.vim'))
-  if has('termguicolors')
-    set termguicolors
-  endif
-  set background=dark
-  let g:gruvbox_material_background = 'medium'
-  let g:gruvbox_material_diagnostic_text_highlight = 1
-  colorscheme gruvbox-material
-  let g:airline_theme='gruvbox_material'
-endif
-
-" if !empty(glob(g:plugin_path . '/papercolor-theme/colors/PaperColor.vim'))
-"   set background=dark
-"   colorscheme PaperColor
-"   " let g:airline_theme='papercolor'
+" if !empty(glob(g:plugin_path . '/gruvbox-material/colors/gruvbox-material.vim'))
+"   if has('termguicolors')
+"     set termguicolors
+"   endif
+"   " set background=dark
+"   " let g:gruvbox_material_background = 'medium'
+"   set background=light
+"   let g:gruvbox_material_background = 'hard'
+"   let g:gruvbox_material_diagnostic_text_highlight = 1
+"   colorscheme gruvbox-material
+"   let g:airline_theme='gruvbox_material'
 " endif
+
+if !empty(glob(g:plugin_path . '/papercolor-theme/colors/PaperColor.vim'))
+  set background=light
+  colorscheme PaperColor
+  let g:airline_theme='papercolor'
+endif
 
