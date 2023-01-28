@@ -173,7 +173,7 @@ eval `dircolors ${CDIR}/dircolors.ansi-universal`
 export EDITOR=vim
 export LESS='-i -R'
 
-if [ -f $HOME/.bash_local ]; then                                                    
-    source $HOME/.bash_local
-fi
+# if [ -f $HOME/.bash_local ]; then                                                    
+#     source $HOME/.bash_local
+# fi
 
