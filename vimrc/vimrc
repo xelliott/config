@@ -36,7 +36,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'sbdchd/neoformat'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
-Plug 'NLKNguyen/papercolor-theme'
+" Plug 'NLKNguyen/papercolor-theme'
+Plug 'sainnhe/everforest'
 
 call plug#end()
 
@@ -49,12 +50,6 @@ exec ":source " . s:path . "/filetypes.vim"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" if !empty(glob(g:plugin_path . '/gruvbox/colors/gruvbox.vim'))
-"   set background=dark
-"   colorscheme gruvbox
-"   let g:airline_theme='gruvbox'
-" endif
-
 " if !empty(glob(g:plugin_path . '/gruvbox-material/colors/gruvbox-material.vim'))
 "   if has('termguicolors')
 "     set termguicolors
@@ -68,9 +63,19 @@ exec ":source " . s:path . "/filetypes.vim"
 "   let g:airline_theme='gruvbox_material'
 " endif
 
-if !empty(glob(g:plugin_path . '/papercolor-theme/colors/PaperColor.vim'))
-  set background=light
-  colorscheme PaperColor
-  let g:airline_theme='papercolor'
-endif
+" if !empty(glob(g:plugin_path . '/papercolor-theme/colors/PaperColor.vim'))
+"   set background=light
+"   colorscheme PaperColor
+"   let g:airline_theme='papercolor'
+" endif
 
+if !empty(glob(g:plugin_path . '/everforest/colors/everforest.vim'))
+  if has('termguicolors')
+    set termguicolors
+  endif
+  set background=light
+  let g:gruvbox_material_background = 'medium'
+  let g:everforest_better_performance = 1
+  colorscheme everforest
+  let g:airline_theme = 'everforest'
+endif
