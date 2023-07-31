@@ -57,6 +57,9 @@ set langmenu=en
 
 " Turn on the Wild menu
 set wildmenu
+if !has('nvim') && exists("v:versionlong") && v:versionlong >= 8024325
+  set wildoptions=pum,tagfile
+endif
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
