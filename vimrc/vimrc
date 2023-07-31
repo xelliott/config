@@ -38,6 +38,7 @@ Plug 'sbdchd/neoformat'
 " Plug 'mattn/vim-lsp-settings'
 " Plug 'NLKNguyen/papercolor-theme'
 Plug 'sainnhe/everforest'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin_nvim' }
 
 call plug#end()
 
@@ -69,13 +70,21 @@ exec ":source " . s:path . "/filetypes.vim"
 "   let g:airline_theme='papercolor'
 " endif
 
-if !empty(glob(g:plugin_path . '/everforest/colors/everforest.vim'))
+" if !empty(glob(g:plugin_path . '/everforest/colors/everforest.vim'))
+"   if has('termguicolors')
+"     set termguicolors
+"   endif
+"   set background=light
+"   let g:gruvbox_material_background = 'medium'
+"   let g:everforest_better_performance = 1
+"   colorscheme everforest
+"   let g:airline_theme = 'everforest'
+" endif
+
+if !empty(glob(g:plugin_path . '/catppuccin_nvim/colors/catppuccin-latte.vim'))
   if has('termguicolors')
     set termguicolors
   endif
-  set background=light
-  let g:gruvbox_material_background = 'medium'
-  let g:everforest_better_performance = 1
-  colorscheme everforest
-  let g:airline_theme = 'everforest'
+  colorscheme catppuccin-latte
+  let g:airline_theme = 'catppuccin'
 endif
