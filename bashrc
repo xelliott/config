@@ -165,7 +165,7 @@ alias ll='ls -l'
 alias la='ls -al'
 alias mkdir='mkdir -p'
 
-eval `dircolors ${CDIR}/dircolors.ansi-universal`
+source ${CDIR}/lscolors.sh
 # Enviroment variables
 # Some applications read the EDITOR variable to determine your favourite text
 # editor. So uncomment the line below and enter the editor of your choice :-)
