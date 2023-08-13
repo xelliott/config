@@ -5,3 +5,4 @@
 vim.opt.showtabline = 2
 vim.opt.autowrite = false
 vim.opt.swapfile = false
+vim.opt.wrap = true
