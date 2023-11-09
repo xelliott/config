@@ -16,4 +16,5 @@ return {
   { "goolord/alpha-nvim", enabled = false },
   { "nvim-tree/nvim-web-devicons", enabled = false },
   { "folke/tokyonight.nvim", enabled = false },
+  { "nvimdev/dashboard-nvim", enabled = false },
 }
