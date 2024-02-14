@@ -11,9 +11,7 @@ fi
 
 CDIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
 
-if ((BASH_VERSINFO[0] == 4)) && ((BASH_VERSINFO[1] == 2)); then
-  shopt -s direxpand
-fi
+shopt | grep -q '^direxpand\b' && shopt -s direxpand
 
 # Bash won't get SIGWINCH if another process is in the foreground.
 # Enable checkwinsize so that bash will check the terminal size when
