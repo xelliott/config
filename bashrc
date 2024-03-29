@@ -5,11 +5,11 @@
 # Test for an interactive shell.  There is no need to set anything
 # past this point for scp and rcp, and it's important to refrain from
 # outputting anything in those cases.
-if [[ $- != *i* ]] ; then
+if [[ $- != *i* ]]; then
 	return
 fi
 
-CDIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" >/dev/null 2>&1 && pwd  )"
+CDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 shopt | grep -q '^direxpand\b' && shopt -s direxpand
 
@@ -38,70 +38,78 @@ export HISTCONTROL=ignoredups
 # CONFIGURATION #
 #################
 # Setup color variables that can be used by the user.
-_lp_source_config()
-{
+_lp_source_config() {
 
-    # TermInfo feature detection
-    local ti_sgr0="$( { tput sgr0 || tput me ; } 2>/dev/null )"
-    local ti_bold="$( { tput bold || tput md ; } 2>/dev/null )"
-    local ti_setaf
-    local ti_setab
-    if tput setaf 0 >/dev/null 2>&1; then
-        ti_setaf() { tput setaf "$1" ; }
-        ti_setab() { tput setab "$1" ; }
-    elif tput AF 0 >/dev/null 2>&1; then
-        # FreeBSD
-        ti_setaf() { tput AF "$1" ; }
-        ti_setab() { tput AB "$1" ; }
-    elif tput AF 0 0 0 >/dev/null 2>&1; then
-        # OpenBSD
-        ti_setaf() { tput AF "$1" 0 0 ; }
-        ti_setab() { tput AB "$1" 0 0 ; }
-    else
-        echo "liquidprompt: terminal $TERM not supported" >&2
-        ti_setaf () { : ; }
-        ti_setab() { : ; }
-    fi
+	# TermInfo feature detection
+	local ti_sgr0="$({ tput sgr0 || tput me; } 2>/dev/null)"
+	local ti_bold="$({ tput bold || tput md; } 2>/dev/null)"
+	local ti_setaf
+	local ti_setab
+	if tput setaf 0 >/dev/null 2>&1; then
+		ti_setaf() { tput setaf "$1"; }
+		ti_setab() { tput setab "$1"; }
+	elif tput AF 0 >/dev/null 2>&1; then
+		# FreeBSD
+		ti_setaf() { tput AF "$1"; }
+		ti_setab() { tput AB "$1"; }
+	elif tput AF 0 0 0 >/dev/null 2>&1; then
+		# OpenBSD
+		ti_setaf() { tput AF "$1" 0 0; }
+		ti_setab() { tput AB "$1" 0 0; }
+	else
+		echo "liquidprompt: terminal $TERM not supported" >&2
+		ti_setaf() { :; }
+		ti_setab() { :; }
+	fi
 
-    local BOLD="\[${ti_bold}\]"
-    local BLACK="\[$(ti_setaf 0)\]"
-    local BOLD_GRAY="\[${ti_bold}$(ti_setaf 0)\]"
-    local WHITE="\[$(ti_setaf 7)\]"
-    local BOLD_WHITE="\[${ti_bold}$(ti_setaf 7)\]"
-    local RED="\[$(ti_setaf 1)\]"
-    local BOLD_RED="\[${ti_bold}$(ti_setaf 1)\]"
-    local WARN_RED="\[$(ti_setaf 0 ; ti_setab 1)\]"
-    local CRIT_RED="\[${ti_bold}$(ti_setaf 7 ; ti_setab 1)\]"
-    local DANGER_RED="\[${ti_bold}$(ti_setaf 3 ; ti_setab 1)\]"
-    local GREEN="\[$(ti_setaf 2)\]"
-    local BOLD_GREEN="\[${ti_bold}$(ti_setaf 2)\]"
-    local YELLOW="\[$(ti_setaf 3)\]"
-    local BOLD_YELLOW="\[${ti_bold}$(ti_setaf 3)\]"
-    local BLUE="\[$(ti_setaf 4)\]"
-    local BOLD_BLUE="\[${ti_bold}$(ti_setaf 4)\]"
-    local PURPLE="\[$(ti_setaf 5)\]"
-    local PINK="\[${ti_bold}$(ti_setaf 5)\]"
-    local CYAN="\[$(ti_setaf 6)\]"
-    local BOLD_CYAN="\[${ti_bold}$(ti_setaf 6)\]"
+	local BOLD="\[${ti_bold}\]"
+	local BLACK="\[$(ti_setaf 0)\]"
+	local BOLD_GRAY="\[${ti_bold}$(ti_setaf 0)\]"
+	local WHITE="\[$(ti_setaf 7)\]"
+	local BOLD_WHITE="\[${ti_bold}$(ti_setaf 7)\]"
+	local RED="\[$(ti_setaf 1)\]"
+	local BOLD_RED="\[${ti_bold}$(ti_setaf 1)\]"
+	local WARN_RED="\[$(
+		ti_setaf 0
+		ti_setab 1
+	)\]"
+	local CRIT_RED="\[${ti_bold}$(
+		ti_setaf 7
+		ti_setab 1
+	)\]"
+	local DANGER_RED="\[${ti_bold}$(
+		ti_setaf 3
+		ti_setab 1
+	)\]"
+	local GREEN="\[$(ti_setaf 2)\]"
+	local BOLD_GREEN="\[${ti_bold}$(ti_setaf 2)\]"
+	local YELLOW="\[$(ti_setaf 3)\]"
+	local BOLD_YELLOW="\[${ti_bold}$(ti_setaf 3)\]"
+	local BLUE="\[$(ti_setaf 4)\]"
+	local BOLD_BLUE="\[${ti_bold}$(ti_setaf 4)\]"
+	local PURPLE="\[$(ti_setaf 5)\]"
+	local PINK="\[${ti_bold}$(ti_setaf 5)\]"
+	local CYAN="\[$(ti_setaf 6)\]"
+	local BOLD_CYAN="\[${ti_bold}$(ti_setaf 6)\]"
 
-    # NO_COL is special: it will be used at runtime, not just during config loading
-    NO_COL="\[${ti_sgr0}\]"
+	# NO_COL is special: it will be used at runtime, not just during config loading
+	NO_COL="\[${ti_sgr0}\]"
 
-    unset ti_sgr0 ti_bold
-    unset -f ti_setaf ti_setab
+	unset ti_sgr0 ti_bold
+	unset -f ti_setaf ti_setab
 
-    # Default values (globals)
-    LP_COLOR_PATH=${BOLD}
-    LP_COLOR_PATH_ROOT=${BOLD_YELLOW}
-    LP_COLOR_ERR=${PURPLE}
-    LP_COLOR_MARK=${BOLD}
-    LP_COLOR_MARK_ROOT=${BOLD_RED}
-    LP_COLOR_USER_ALT=${BOLD}
-    LP_COLOR_USER_ROOT=${BOLD_YELLOW}
-    LP_COLOR_SSH=${BLUE}
+	# Default values (globals)
+	LP_COLOR_PATH=${BOLD}
+	LP_COLOR_PATH_ROOT=${BOLD_YELLOW}
+	LP_COLOR_ERR=${PURPLE}
+	LP_COLOR_MARK=${BOLD}
+	LP_COLOR_MARK_ROOT=${BOLD_RED}
+	LP_COLOR_USER_ALT=${BOLD}
+	LP_COLOR_USER_ROOT=${BOLD_YELLOW}
+	LP_COLOR_SSH=${BLUE}
 
-    LP_tilde="~"
-    LP_PWD='$(echo -n "${PWD/#$HOME/$LP_tilde}" | awk -F "/" '"'"'{ if (length($0) > 12) { if (NF>3) print $1 "/.../" $(NF-1) "/" $NF; else if (NF==3) print $1 "/.../" $NF; else print $0; } else print $0;}'"'"')'
+	LP_tilde="~"
+	LP_PWD='$(echo -n "${PWD/#$HOME/$LP_tilde}" | awk -F "/" '"'"'{ if (length($0) > 12) { if (NF>3) print $1 "/.../" $(NF-1) "/" $NF; else if (NF==3) print $1 "/.../" $NF; else print $0; } else print $0;}'"'"')'
 
 }
 # do source config files
@@ -112,26 +120,30 @@ unset -f _lp_source_config
 # Who are we? #
 ###############
 # Yellow for root, bold if the user is not the login one, else no color.
-if (( EUID != 0 )); then  # if user is not root
-    # if user is not login user
-    if [[ "${USER}" != "$(logname 2>/dev/null || echo "$LOGNAME")" ]]; then
-        LP_USER="${LP_COLOR_USER_ALT}\u${NO_COL} "
-    else
-        LP_USER=""
-    fi
+if ((EUID != 0)); then # if user is not root
+	# if user is not login user
+	if [[ "${USER}" != "$(logname 2>/dev/null || echo "$LOGNAME")" ]]; then
+		LP_USER="${LP_COLOR_USER_ALT}\u${NO_COL} "
+	else
+		LP_USER=""
+	fi
 else # root!
-    LP_USER="${LP_COLOR_USER_ROOT}\u${NO_COL} "
-    LP_COLOR_MARK="${LP_COLOR_MARK_ROOT}"
-    LP_COLOR_PATH="${LP_COLOR_PATH_ROOT}"
+	LP_USER="${LP_COLOR_USER_ROOT}\u${NO_COL} "
+	LP_COLOR_MARK="${LP_COLOR_MARK_ROOT}"
+	LP_COLOR_PATH="${LP_COLOR_PATH_ROOT}"
 fi
 
 if [[ -n "${SSH_CLIENT-}${SSH2_CLIENT-}${SSH_TTY-}" ]]; then
-    # If we want a different color for each host
-    LP_HOST="${LP_COLOR_SSH}\h${NO_COL} "
+	# If we want a different color for each host
+	LP_HOST="${LP_COLOR_SSH}\h${NO_COL} "
 elif [[ "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
-    LP_HOST="${LP_COLOR_SSH}PBS \h${NO_COL} "
+	LP_HOST="${LP_COLOR_SSH}PBS \h${NO_COL} "
 else
-    LP_HOST="" # no hostname if local
+	LP_HOST="" # no hostname if local
+fi
+
+if [[ -n "${LP_HOST-}" ]]; then
+	SHELL_INTEGRATION_SKIP_ALL=1
 fi
 
 ########################
@@ -144,16 +156,18 @@ PS1+="$NO_COL]"
 PS1+="\$(err=\$? && [[ \$err != 0 ]] && echo \" $LP_COLOR_ERR\$err$NO_COL \")"
 PS1+="${LP_COLOR_MARK}\$${NO_COL} "
 
+source ${CDIR}/shell_integration.sh
+
 # man page colors
 man() {
-    env LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-	LESS_TERMCAP_md=$(printf "\e[1;31m") \
-	LESS_TERMCAP_me=$(printf "\e[0m") \
-	LESS_TERMCAP_se=$(printf "\e[0m") \
-	LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-	LESS_TERMCAP_ue=$(printf "\e[0m") \
-	LESS_TERMCAP_us=$(printf "\e[1;32m") \
-	man "$@"
+	env LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+		LESS_TERMCAP_md=$(printf "\e[1;31m") \
+		LESS_TERMCAP_me=$(printf "\e[0m") \
+		LESS_TERMCAP_se=$(printf "\e[0m") \
+		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+		LESS_TERMCAP_ue=$(printf "\e[0m") \
+		LESS_TERMCAP_us=$(printf "\e[1;32m") \
+		man "$@"
 }
 
 # alias
@@ -171,7 +185,6 @@ source ${CDIR}/lscolors.sh
 export EDITOR=vim
 export LESS='-i -R'
 
-# if [ -f $HOME/.bash_local ]; then                                                    
+# if [ -f $HOME/.bash_local ]; then
 #     source $HOME/.bash_local
 # fi
-
