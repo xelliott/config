@@ -145,7 +145,7 @@ else
 fi
 
 if [[ -n "${LP_HOST-}" ]]; then
-	SHELL_INTEGRATION_SKIP_ALL=1
+	SHELL_INTEGRATION_SKIP_CMD=1
 fi
 
 ########################
@@ -159,6 +159,17 @@ PS1+="\$(err=\$? && [[ \$err != 0 ]] && echo \" $LP_COLOR_ERR\$err$NO_COL \")"
 PS1+="${LP_COLOR_MARK}\$${NO_COL} "
 
 source ${CDIR}/shell_integration.sh
+
+__term_resize_shell() {
+	resize >/dev/null 2>&1
+}
+# on some remote machines, the shell rows and columns are not updated
+# with window resize, so add a resize command on each prompt
+if [[ -n "${LP_HOST-}" || "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
+	if type resize >/dev/null 2>&1; then
+		precmd_functions+=(__term_resize_shell)
+	fi
+fi
 
 # man page colors
 man() {
