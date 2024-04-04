@@ -16,15 +16,24 @@ config.automatically_reload_config = false
 
 config.default_domain = "WSL:Arch_Linux"
 
-config.scrollback_lines = 5000
+config.scrollback_lines = 10000
 config.enable_scroll_bar = true
 
 -- This is where you actually apply your config choices
--- config.font = wezterm.font 'FiraCode Nerd Font Mono'
+-- config.font = wezterm.font_with_fallback({
+-- 	{
+-- 		family = "JetBrainsMono Nerd Font Mono",
+-- 		harfbuzz_features = { "cv10", "cv12", "cv16" },
+-- 	},
+-- 	"JuliaMono",
+-- })
+-- config.font_size = 11.0
+local firacode_features = { "cv02" }
 config.font = wezterm.font_with_fallback({
 	{
 		family = "FiraCode Nerd Font Mono",
 		weight = 450,
+		harfbuzz_features = firacode_features,
 	},
 	{
 		family = "JuliaMono",
@@ -41,6 +50,7 @@ config.font_rules = {
 				family = "FiraCode Nerd Font Mono",
 				weight = 450,
 				italic = true,
+				harfbuzz_features = firacode_features,
 			},
 			{
 				family = "JuliaMono",
@@ -59,6 +69,7 @@ config.font_rules = {
 				family = "FiraCode Nerd Font Mono",
 				weight = 400,
 				italic = true,
+				harfbuzz_features = firacode_features,
 			},
 			{
 				family = "JuliaMono",
@@ -68,7 +79,7 @@ config.font_rules = {
 		}),
 	},
 }
-config.font_size = 11.0
+config.font_size = 12.0
 config.bold_brightens_ansi_colors = "No"
 
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
