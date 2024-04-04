@@ -133,11 +133,13 @@ else # root!
 	LP_COLOR_PATH="${LP_COLOR_PATH_ROOT}"
 fi
 
-if [[ -n "${SSH_CLIENT-}${SSH2_CLIENT-}${SSH_TTY-}" ]]; then
-	# If we want a different color for each host
-	LP_HOST="${LP_COLOR_SSH}\h${NO_COL} "
-elif [[ "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
+# Detect whether in a PBS or Slurm interactive job
+if [[ "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
 	LP_HOST="${LP_COLOR_SSH}PBS \h${NO_COL} "
+elif [[ -n "${SLURM_JOB_ID}" || -n "${SLURM_PTY_PORT}" ]]; then
+	LP_HOST="${LP_COLOR_SSH}Slurm \h${NO_COL} "
+elif [[ -n "${SSH_CLIENT-}${SSH2_CLIENT-}${SSH_TTY-}" ]]; then
+	LP_HOST="${LP_COLOR_SSH}\h${NO_COL} "
 else
 	LP_HOST="" # no hostname if local
 fi
