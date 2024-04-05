@@ -15,5 +15,5 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "fortran" },
-  command = "setlocal ts=3 sw=3 et",
+  command = "setlocal ts=3 sw=3 et | let b:fortran_do_enddo=1 | let b:fortran_indent_less=1",
 })

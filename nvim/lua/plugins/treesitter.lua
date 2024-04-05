@@ -9,6 +9,10 @@ return {
         vim.list_extend(opts.ensure_installed, { "julia" })
         vim.list_extend(opts.ensure_installed, { "toml" })
       end
+      opts.indent = {
+        enable = true,
+        disable = { "fortran" },
+      }
     end,
   },
 }
