@@ -145,7 +145,7 @@ else
 fi
 
 if [[ -n "${LP_HOST-}" ]]; then
-	SHELL_INTEGRATION_SKIP_CMD=1
+	SHELL_INTEGRATION_SKIP_CWD=1
 fi
 
 ########################
