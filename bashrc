@@ -109,7 +109,7 @@ _lp_source_config() {
 	LP_COLOR_SSH=${BLUE}
 
 	LP_tilde="~"
-	LP_PWD='$(echo -n "${PWD/#$HOME/$LP_tilde}" | awk -F "/" '"'"'{ if (length($0) > 12) { if (NF>3) print $1 "/.../" $(NF-1) "/" $NF; else if (NF==3) print $1 "/.../" $NF; else print $0; } else print $0;}'"'"')'
+	LP_PWD='$(echo -n "${PWD/#$HOME/$LP_tilde}" | awk -F "/" '"'"'{ if (length($0) > 12) { if (NF>3) print $1 "/…/" $(NF-1) "/" $NF; else if (NF==3) print $1 "/…/" $NF; else print $0; } else print $0;}'"'"')'
 
 }
 # do source config files
