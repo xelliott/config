@@ -97,6 +97,11 @@ config.window_padding = {
 	bottom = 0,
 }
 
+config.keys = {
+	{ key = "UpArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
+	{ key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(1) },
+}
+
 config.check_for_updates = false
 
 -- return the configuration to wezterm
