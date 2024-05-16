@@ -440,6 +440,11 @@ __wezterm_osc7() {
   printf "\033]7;file://%s%s\033\\" "${HOSTNAME}" "${PWD}"
 }
 
+__wt_osc9_9() {
+    _win_path=$(wslpath -m $(pwd))
+    printf "\033]9;9;%s\033\\" "$_win_path"
+}
+
 # The semantic precmd and prexec functions generate semantic
 # zones, marking up the prompt, the user input and the command
 # output so that the terminal can better reason about the display.
@@ -489,7 +494,11 @@ fi
 # the semantic zones as we don't want to perturb the last command
 # status before we've had a chance to report it to the terminal
 if [[ -z "${SHELL_INTEGRATION_SKIP_CWD}" ]] ; then
-  precmd_functions+=(__wezterm_osc7)
+  if [[ -n "${WSLENV:-}" && -n "${WT_SESSION:-}" ]]; then
+    precmd_functions+=(__wt_osc9_9)
+  else
+    precmd_functions+=(__wezterm_osc7)
+  fi
 fi
 
 true
