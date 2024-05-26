@@ -17,4 +17,6 @@ return {
   { "nvim-tree/nvim-web-devicons", enabled = false },
   { "folke/tokyonight.nvim", enabled = false },
   { "nvimdev/dashboard-nvim", enabled = false },
+  { "RRethy/vim-illuminate", enabled = false },
+  { "lewis6991/gitsigns.nvim", enabled = false },
 }
