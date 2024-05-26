@@ -6,4 +6,5 @@ vim.opt.showtabline = 2
 vim.opt.autowrite = false
 vim.opt.swapfile = false
 vim.opt.wrap = true
+vim.g.autoformat = false
 vim.b.autoformat = false
