@@ -35,14 +35,18 @@ text:
     - CONTRIBUTORS
     - CONTRIBUTORS.md
     - CONTRIBUTORS.txt
+    - FAQ
     - HISTORY
     - INSTALL
     - INSTALL.md
     - INSTALL.txt
+    - LEGACY
+    - NOTICE
     - README
     - README.md
     - README.rst
     - README.txt
+    - VERSION
 
   todo:
     - TODO
@@ -52,6 +56,7 @@ text:
   licenses:
     - COPYING
     - COPYRIGHT
+    - LICENCE
     - LICENSE
     - LICENSE.md
     - LICENSE-APACHE
@@ -104,29 +109,34 @@ markup:
     - .xhtml
 
   other:
+    - ".1"
     - .adoc
     - .asciidoc
     - .csv
     - .markdown
     - .md
     - .mdown
+    - .info
     - .org
     - .rst
+    - .typ
     - .xml
 
 programming:
   source:
     actionscript: [.as]
+    ada: [.adb, .ads]
     applescript: [.applescript]
     asp: [.asa]
+    assembly: [.asm]
     awk: [.awk]
     basic: [.vb]
     cabal: [.cabal]
     clojure: [.clj]
     crystal: [.cr]
     csharp: [.cs, .csx]
-    css: [.css, .sass, .scss]
-    cxx: [.c, .cpp, .cc, .cp, .cxx, .c++, .h, .hh, .hpp, .hxx, .h++, .inc, .inl, .ipp, .def]
+    css: [.css]
+    cxx: [.c, .cpp, .cc, .cp, .cxx, .c++, .h, .hh, .hpp, .hxx, .h++, .ino, .inc, .inl, .ipp, .def]
     d: [.d, .di]
     dart: [.dart]
     diff: [.diff, .patch]
@@ -136,9 +146,12 @@ programming:
     erlang: [.erl]
     fortran: [.f, .for, .ftn, .f90, .f95, .f03, .f08]
     fsharp: [.fs, .fsi, .fsx]
+    gcode: [.gcode]
     go: [.go]
     graphviz: [.dot, .gv]
     groovy: [.groovy, .gvy, .gradle]
+    hack: [.hack]
+    hare: [.ha]
     haskell: [.hs]
     ipython: [.ipynb]
     java: [.java, .bsh]
@@ -152,19 +165,25 @@ programming:
     lua: [.lua]
     mathematica: [.nb]
     matlab: [.matlab, .m, .mn]
+    mojo: [.mojo]
+    nim: [.nim, .nims, .nimble]
     ocaml: [.ml, .mli]
+    openscad: [.scad]
     pascal: [.pas, .p, .dpr]
     perl: [.pl, .pm, .pod, .t, .cgi]
     php: [.php]
     powershell: [.ps1, .psm1, .psd1]
+    prql: [.prql]
     puppet: [.pp, .epp]
     purescript: [.purs]
     python: [.py]
     r: [.r]
+    raku: [.raku]
     ruby: [.rb]
     rust: [.rs]
+    sass: [.sass, .scss]
     scala: [.scala, .sbt]
-    shell: [.sh, .bash, .zsh, .fish]
+    shell: [.sh, .bash, .nu, .bashrc, .bash_profile, .zsh, .fish]
     sql: [.sql]
     swift: [.swift]
     tablegen: [.td]
@@ -172,6 +191,7 @@ programming:
     typescript: [.ts, .tsx]
     v: [.v, .vsh]
     viml: [.vim]
+    zig: [.zig]
 
   tooling:
     vcs:
@@ -191,6 +211,7 @@ programming:
         - .ignore
         - .fdignore
         - .rgignore
+        - .tfignore
 
     build:
       cmake:
@@ -201,6 +222,7 @@ programming:
       make:
         - Makefile
         - .make
+        - .mk
 
       automake:
         - Makefile.am
@@ -250,28 +272,89 @@ programming:
 
     continuous-integration:
       - appveyor.yml
+      - azure-pipelines.yml
       - .cirrus.yml
       - .gitlab-ci.yml
       - .travis.yml
 
 media:
   image:
-    - .bmp
-    - .eps
-    - .gif
-    - .ico
-    - .jpeg
-    - .jpg
-    - .pbm
-    - .pgm
-    - .png
-    - .ppm
-    - .psd
-    - .svg
-    - .tif
-    - .tiff
-    - .webp
-    - .xcf
+    application:
+      - .ai # Illustrator
+      - .kra # Krita
+      - .psd # Photoshop
+      - .xvf # GIMP
+
+    bitmap:
+      - .avif
+      - .bmp
+      - .exr # OpenEXR
+      - .gif
+      - .heif
+      - .ico
+      - .jpeg
+      - .jpg
+      - .jxl
+      - .pbm
+      - .pcx
+      - .pgm
+      - .png
+      - .ppm
+      - .qoi
+      - .tga
+      - .tif
+      - .tiff
+      - .webp
+      - .xpm
+
+    raw: # Camera RAW files, based on https://en.wikipedia.org/wiki/Raw_image_format (.tif omitted to avoid duplication)
+      - .3fr
+      - .ari
+      - .arw
+      - .bay
+      - .braw
+      - .cap
+      - .cr2
+      - .cr3
+      - .crw
+      - .data
+      - .dcr
+      - .dcs
+      - .dng
+      - .drf
+      - .eip
+      - .erf
+      - .fff
+      - .gpr
+      - .iiq
+      - .k25
+      - .kdc
+      - .mdc
+      - .mef
+      - .mos
+      - .mrw
+      - .nef
+      - .nrw
+      - .obm
+      - .orf
+      - .pef
+      - .ptx
+      - .pxn
+      - .r3d
+      - .raf
+      - .raw
+      - .rw2
+      - .rwl
+      - .rwz
+      - .sr2
+      - .srf
+      - .srw
+      - .x3f
+
+    vector:
+      - .dxf
+      - .eps
+      - .svg
 
   audio:
     - .aif
@@ -297,6 +380,7 @@ media:
     - .mp4
     - .mpeg
     - .mpg
+    - .ogv
     - .rm
     - .swf
     - .vob
@@ -309,6 +393,37 @@ media:
     - .otf
     - .ttf
     - .woff
+    - .woff2
+
+  3d: # File formats relating to 3D data for computer graphics, CAD, 3D printing etc.
+    application:
+      - .blend # Blender scene file
+      - .hda # Houdini Digital Assets
+      - .hip # Houdini scene file
+      - .ma # Maya scene file
+      - .mb # Maya scene file
+      - .otl # Houdini Operator Type Library
+
+    mesh:
+      - .3ds
+      - .3mf # 3D manufacturing format
+      - .alembic
+      - .amf # Additive Manifacturing File
+      - .dae # Collada
+      - .fbx
+      - .iges
+      - .igs
+      - .mtl # material for .obj
+      - .obj
+      - .step
+      - .stl
+      - .stp
+      - .usd # Universal Scene Description (stores many things)
+      - .usda # .usd ASCII-format
+      - .usdc # .usd binary-format
+      - .usdz # .usd package
+      - .wrl # VRML
+      - .x3d
 
 office:
   document:
@@ -342,6 +457,7 @@ archives:
   packages:
     - .apk
     - .deb
+    - .msi
     - .rpm
     - .xbps
 
@@ -361,6 +477,7 @@ archives:
     - .arj
     - .bz
     - .bz2
+    - .db
     - .gz
     - .jar
     - .pkg
@@ -384,6 +501,7 @@ executable:
     - .so
     - .a
     - .dll
+    - .dylib
 
   linux:
     - .ko
@@ -400,6 +518,7 @@ unimportant:
       - Makefile.in
     rust:
       - .rlib
+      - .rmeta
     python:
       - .pyc
       - .pyd
@@ -447,6 +566,11 @@ unimportant:
     - .orig
     - .pid
     - .swp
+    - .timestamp
     - .tmp
+    - stderr
+    - stdin
+    - stdout
+    - bun.lockb
     - go.sum
     - package-lock.json
