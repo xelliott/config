@@ -19,4 +19,6 @@ return {
   { "nvimdev/dashboard-nvim", enabled = false },
   { "RRethy/vim-illuminate", enabled = false },
   { "lewis6991/gitsigns.nvim", enabled = false },
+  { "lewis6991/gitsigns.nvim", enabled = false },
+  { "folke/trouble.nvim", enabled = false },
 }
