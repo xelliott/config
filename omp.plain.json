@@ -1,0 +1,53 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": true,
+  "shell_integration": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "default",
+          "template": "<b>[</b>"
+        },
+        {
+          "type": "session",
+          "style": "plain",
+          "templates": [
+            "{{ if .Root }}<red><b>{{ .UserName }} </b></>{{ else if ne .UserName .Env.POSH_LOGNAME }}{{ .UserName }} {{end}}",
+            "{{ if eq .Env.PBS_ENVIRONMENT \"PBS_INTERACTIVE\" }}<blue>PBS </>{{ end }}",
+            "{{ if or .Env.SLURM_JOB_ID .Env.SLURM_PTY_PORT }}<blue>Slurm </>{{ end }}",
+            "{{ if .SSHSession }}<blue>{{ .HostName }} </>{{ end }}"
+          ],
+          "foreground": "default"
+        },
+        {
+          "type": "path",
+          "style": "plain",
+          "template": "<blue>{{ .Path }}</><b>]</b>",
+          "properties": {
+            "folder_icon": "\u2026",
+            "max_depth": 2,
+            "style": "agnoster_short"
+          },
+          "foreground": "default"
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "template": "{{ if gt .Code 0 }}<magenta> (\u203c {{ .Code }}) </>{{ end }}"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "<b>{{ if .Root }}<red>#</>{{ else }}${{ end }}</b>",
+          "foreground": "default"
+        }
+      ]
+    }
+  ]
+}

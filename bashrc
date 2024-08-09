@@ -151,25 +151,33 @@ fi
 ########################
 # Construct the prompt #
 ########################
-PS1="[${LP_USER}${LP_HOST}${LP_COLOR_PATH}"
-PS1+='$(eval "echo ${LP_PWD}")'
-PS1+="$NO_COL]"
-# add return code and prompt mark
-PS1+="\$(err=\$? && [[ \$err != 0 ]] && echo \" $LP_COLOR_ERR\$err$NO_COL \")"
-PS1+="${LP_COLOR_MARK}\$${NO_COL} "
-
-source ${CDIR}/shell_integration.sh
-
-__term_resize_shell() {
-	resize >/dev/null 2>&1
-}
-# on some remote machines, the shell rows and columns are not updated
-# with window resize, so add a resize command on each prompt
-if [[ -n "${LP_HOST-}" || "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
-	if type resize >/dev/null 2>&1; then
-		precmd_functions+=(__term_resize_shell)
-	fi
+# Set up oh-my-posh
+# if oh-my-posh binary is not found, use the one in the repo
+if ! command -v oh-my-posh &>/dev/null; then
+	# shellcheck source=/dev/null
+	export PATH="${PATH}:${CDIR}/bin/o-m-p"
 fi
+eval "$(oh-my-posh init bash --config ${CDIR}/omp.plain.json)"
+source ${CDIR}/poshcontext.sh
+# PS1="[${LP_USER}${LP_HOST}${LP_COLOR_PATH}"
+# PS1+='$(eval "echo ${LP_PWD}")'
+# PS1+="$NO_COL]"
+# # add return code and prompt mark
+# PS1+="\$(err=\$? && [[ \$err != 0 ]] && echo \" $LP_COLOR_ERR\$err$NO_COL \")"
+# PS1+="${LP_COLOR_MARK}\$${NO_COL} "
+
+# source ${CDIR}/shell_integration.sh
+
+# __term_resize_shell() {
+# 	resize >/dev/null 2>&1
+# }
+# # on some remote machines, the shell rows and columns are not updated
+# # with window resize, so add a resize command on each prompt
+# if [[ -n "${LP_HOST-}" || "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
+# 	if type resize >/dev/null 2>&1; then
+# 		precmd_functions+=(__term_resize_shell)
+# 	fi
+# fi
 
 # man page colors
 man() {
