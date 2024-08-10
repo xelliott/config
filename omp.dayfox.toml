@@ -48,21 +48,19 @@ background = 'p:dir_bg'
 foreground = 'p:dir_fg'
 properties = { 'folder_icon' = '…', 'max_depth' = 2.0, 'style' = 'agnoster_short' }
 
-[[blocks.segments]]
-type = 'status'
-style = 'diamond'
-trailing_diamond = "▌"
-# trailing_diamond = "░"
-templates = [
-  '{{ if eq .Code 130 }}(SIGINT){{ end }}',
-  '{{ if eq .Code 137 }}(SIGKILL){{ end }}',
-  '{{ if eq .Code 143 }}(SIGTERM){{ end }}',
-  '{{ if gt .Code 128 }}(SIG {{ sub .Code 128 }}){{ end }}',
-  '{{ if gt .Code 0 }}(x {{ .Code }}){{ end }}',
-]
-templates_logic = 'first_match'
-foreground = 'p:os_fg'
-background = 'p:os_bg'
+# [[blocks.segments]]
+# type = 'status'
+# style = 'plain'
+# # trailing_diamond = "░"
+# templates = [
+#   '{{ if eq .Code 130 }}(SIGINT){{ end }}',
+#   '{{ if eq .Code 137 }}(SIGKILL){{ end }}',
+#   '{{ if eq .Code 143 }}(SIGTERM){{ end }}',
+#   '{{ if gt .Code 128 }}(SIG {{ sub .Code 128 }}){{ end }}',
+#   '{{ if gt .Code 0 }}(x {{ .Code }}){{ end }}',
+# ]
+# templates_logic = 'first_match'
+# foreground = 'red'
 
 # [[blocks.segments]]
 # type = 'text'
@@ -72,11 +70,9 @@ background = 'p:os_bg'
 # foreground_templates = ['{{ if gt .Code 0 }}red{{ end }}']
 
 [palette]
-dir_bg = '#396847'
-dir_fg = '#f6f2ee'
-os_bg = '#824d5b'
+git_bg = '#abafc7'
+git_fg = '#3d2b5a'
+os_bg = '#2848a9'
 os_fg = '#e4dcd4'
-git_bg = "#ac5402"
-git_fg = "#dbd1dd"
-lang_bg = "#2848a9"
-lang_fg = "#d3c7bb"
+dir_bg = "#e4dcd4"
+dir_fg = "#643f61"
