@@ -157,7 +157,7 @@ if ! command -v oh-my-posh &>/dev/null; then
 	# shellcheck source=/dev/null
 	export PATH="${PATH}:${CDIR}/bin/o-m-p"
 fi
-eval "$(oh-my-posh init bash --config ${CDIR}/omp.plain.json)"
+eval "$(oh-my-posh init bash --config ${CDIR}/omp.dayfox.toml)"
 source ${CDIR}/poshcontext.sh
 # PS1="[${LP_USER}${LP_HOST}${LP_COLOR_PATH}"
 # PS1+='$(eval "echo ${LP_PWD}")'

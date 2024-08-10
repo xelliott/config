@@ -19,32 +19,47 @@
           "style": "plain",
           "templates": [
             "{{ if .Root }}<red><b>{{ .UserName }} </b></>{{ else if ne .UserName .Env.POSH_LOGNAME }}{{ .UserName }} {{end}}",
-            "{{ if eq .Env.PBS_ENVIRONMENT \"PBS_INTERACTIVE\" }}<blue>PBS </>{{ end }}",
-            "{{ if or .Env.SLURM_JOB_ID .Env.SLURM_PTY_PORT }}<blue>Slurm </>{{ end }}",
-            "{{ if .SSHSession }}<blue>{{ .HostName }} </>{{ end }}"
+            "{{ if .SSHSession }}{{ .HostName }} {{ end }}",
+            "{{ if eq .Env.PBS_ENVIRONMENT \"PBS_INTERACTIVE\" }}PBS {{ end }}",
+            "{{ if or .Env.SLURM_JOB_ID .Env.SLURM_PTY_PORT }}Slurm {{ end }}"
           ],
-          "foreground": "default"
+          "foreground": "green"
         },
         {
           "type": "path",
           "style": "plain",
-          "template": "<blue>{{ .Path }}</><b>]</b>",
+          "template": "<b>{{ .Path }}</b>",
           "properties": {
             "folder_icon": "\u2026",
             "max_depth": 2,
             "style": "agnoster_short"
           },
-          "foreground": "default"
-        },
-        {
-          "type": "status",
-          "style": "plain",
-          "template": "{{ if gt .Code 0 }}<magenta> (\u203c {{ .Code }}) </>{{ end }}"
+          "foreground": "blue"
         },
         {
           "type": "text",
           "style": "plain",
-          "template": "<b>{{ if .Root }}<red>#</>{{ else }}${{ end }}</b>",
+          "foreground": "default",
+          "template": "<b>]</b>"
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "templates_logic": "first_match",
+          "template": "",
+          "templates": [
+             "{{ if eq .Code 130 }} (SIGINT) {{ end }}",
+             "{{ if eq .Code 137 }} (SIGKILL) {{ end }}",
+             "{{ if eq .Code 143 }} (SIGTERM) {{ end }}",
+             "{{ if gt .Code 128 }} (SIG {{ sub .Code 128 }}) {{ end }}",
+             "{{ if gt .Code 0 }} (x {{ .Code }}) {{ end }}"
+          ],
+          "foreground": "red"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "template": "<b>{{ if .Root }}#{{ else }}❯{{ end }}</b>",
           "foreground": "default"
         }
       ]

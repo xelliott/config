@@ -1,0 +1,82 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = false
+shell_integration = true
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+
+[[blocks.segments]]
+type = 'session'
+style = 'diamond'
+trailing_diamond = "▌"
+template = '{{ if .Root }}<red><b>{{ .UserName }}</b></>{{ else if ne .UserName .Env.POSH_LOGNAME }}{{ .UserName }}{{end}}'
+background = 'p:os_bg'
+foreground = 'p:os_fg'
+alias = 'user'
+
+[[blocks.segments]]
+type = 'session'
+style = 'diamond'
+trailing_diamond = "▌"
+template = '{{ if .SSHSession }}{{ .HostName }}{{ end }}'
+background = 'p:os_bg'
+foreground = 'p:os_fg'
+alias = 'hostname'
+
+[[blocks.segments]]
+type = 'session'
+style = 'diamond'
+trailing_diamond = "▌"
+templates = [
+  '{{ if eq .Env.PBS_ENVIRONMENT "PBS_INTERACTIVE" }}PBS{{ end }}',
+  '{{ if or .Env.SLURM_JOB_ID .Env.SLURM_PTY_PORT }}Slurm{{ end }}',
+]
+background = 'p:os_bg'
+foreground = 'p:os_fg'
+alias = 'batch_scheduler'
+
+[[blocks.segments]]
+type = 'path'
+style = 'diamond'
+trailing_diamond = "▌"
+# trailing_diamond = "░"
+template = '<b>{{ .Path }}</b>'
+background = 'p:dir_bg'
+foreground = 'p:dir_fg'
+properties = { 'folder_icon' = '…', 'max_depth' = 2.0, 'style' = 'agnoster_short' }
+
+[[blocks.segments]]
+type = 'status'
+style = 'diamond'
+trailing_diamond = "▌"
+# trailing_diamond = "░"
+templates = [
+  '{{ if eq .Code 130 }}(SIGINT){{ end }}',
+  '{{ if eq .Code 137 }}(SIGKILL){{ end }}',
+  '{{ if eq .Code 143 }}(SIGTERM){{ end }}',
+  '{{ if gt .Code 128 }}(SIG {{ sub .Code 128 }}){{ end }}',
+  '{{ if gt .Code 0 }}(x {{ .Code }}){{ end }}',
+]
+templates_logic = 'first_match'
+foreground = 'p:os_fg'
+background = 'p:os_bg'
+
+# [[blocks.segments]]
+# type = 'text'
+# style = 'plain'
+# template = '<b>{{ if .Root }}#{{ else }}❯{{ end }}</b>'
+# foreground = 'green'
+# foreground_templates = ['{{ if gt .Code 0 }}red{{ end }}']
+
+[palette]
+dir_bg = '#396847'
+dir_fg = '#f6f2ee'
+os_bg = '#824d5b'
+os_fg = '#e4dcd4'
+git_bg = "#ac5402"
+git_fg = "#dbd1dd"
+lang_bg = "#2848a9"
+lang_fg = "#d3c7bb"
