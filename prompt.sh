@@ -6,7 +6,7 @@
 
 if test -n "${BASH_VERSION-}"; then
     # Check for recent enough version of bash.
-    if (( ${BASH_VERSINFO[0]:-0} < 3 || ( ${BASH_VERSINFO[0]:-0} == 3 && ${BASH_VERSINFO[1]:-0} < 2 ) )); then
+    if ((${BASH_VERSINFO[0]:-0} < 3 || (${BASH_VERSINFO[0]:-0} == 3 && ${BASH_VERSINFO[1]:-0} < 2))); then
         echo "liquidprompt: Bash version $BASH_VERSION not supported" >&2
         return
     fi
@@ -19,7 +19,7 @@ if test -n "${BASH_VERSION-}"; then
     # like $PWD, VCS branch names...
     __lp_escape() {
         ret="${1//\\/\\\\}"
-        if shopt -q promptvars ; then
+        if shopt -q promptvars; then
             ret="${ret//\$/\\\$}"
             ret="${ret//\`/\\\`}"
         fi
@@ -32,7 +32,7 @@ if test -n "${BASH_VERSION-}"; then
         done
 
         ret="${ret//\\\\/\\}"
-        if shopt -q promptvars ; then
+        if shopt -q promptvars; then
             ret="${ret//\\\$/\$}"
             ret="${ret//\\\`/\`}"
         fi
@@ -55,13 +55,13 @@ __lp_source_config() {
     LP_COLOR_PATH_BG=7 # white
     __lp_background_color $LP_COLOR_PATH_BG
     LP_COLOR_PATH="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${ab_color}${_LP_CLOSE_ESC}"
-    
+
     LP_COLOR_USER_SESSION_BG=4 # blue
     __lp_background_color $LP_COLOR_USER_SESSION_BG
     __lp_foreground_color 7 # white
     LP_COLOR_USER_SESSION="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
     LP_COLOR_ROOT_SESSION_BG=1 # red
-    __lp_background_color $LP_COLOR_ROOT_SESSION_BG 
+    __lp_background_color $LP_COLOR_ROOT_SESSION_BG
     __lp_foreground_color 7 # white
     LP_COLOR_ROOT_SESSION="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
 }
@@ -86,7 +86,7 @@ __lp_set_prompt() {
 
     PS1=""
     if [[ -n "${LP_SESSION}" ]]; then
-        if (( EUID == 0 )); then
+        if ((EUID == 0)); then
             local lp_active_segment_bg=$LP_COLOR_ROOT_SESSION_BG
             local LP_COLOR_SESSION=${LP_COLOR_ROOT_SESSION}
         else
@@ -116,50 +116,50 @@ lp_activate() {
     # TermInfo feature detection
     _lp_af_colors=() _lp_ab_colors=()
 
-    __lp_foreground_color() { return 2 ; }
-    __lp_background_color() { return 2 ; }
-    
+    __lp_foreground_color() { return 2; }
+    __lp_background_color() { return 2; }
+
     if ! command -v tput >/dev/null; then
         echo "liquidprompt: 'tput' not available; will not be able to format terminal" >&2
         LP_ENABLE_COLOR=0
     else
-        _LP_TI_RESET="$( { tput sgr0 || tput me ; } 2>/dev/null )"
-        _LP_TI_BOLD="$( { tput bold || tput md ; } 2>/dev/null )"
-        _LP_TI_UNDERLINE="$( { tput smul || tput us ; } 2>/dev/null )"
-        _LP_TI_COLORS="$( tput colors 2>/dev/null )"
+        _LP_TI_RESET="$({ tput sgr0 || tput me; } 2>/dev/null)"
+        _LP_TI_BOLD="$({ tput bold || tput md; } 2>/dev/null)"
+        _LP_TI_UNDERLINE="$({ tput smul || tput us; } 2>/dev/null)"
+        _LP_TI_COLORS="$(tput colors 2>/dev/null)"
         _LP_TI_COLORS=${_LP_TI_COLORS:-8}
 
         if tput setaf 0 >/dev/null 2>&1; then
-            __lp_foreground_color() { af_color="${_lp_af_colors[$1+1]:=$(tput setaf "$1")}"; }
+            __lp_foreground_color() { af_color="${_lp_af_colors[$1 + 1]:=$(tput setaf "$1")}"; }
         elif tput AF 0 >/dev/null 2>&1; then
             # FreeBSD
-            __lp_foreground_color() { af_color="${_lp_af_colors[$1+1]:=$(tput AF "$1")}"; }
+            __lp_foreground_color() { af_color="${_lp_af_colors[$1 + 1]:=$(tput AF "$1")}"; }
         elif tput AF 0 0 0 >/dev/null 2>&1; then
             # OpenBSD
-            __lp_foreground_color() { af_color="${_lp_af_colors[$1+1]:=$(tput AF "$1" 0 0)}"; }
+            __lp_foreground_color() { af_color="${_lp_af_colors[$1 + 1]:=$(tput AF "$1" 0 0)}"; }
         else
             echo "liquidprompt: terminal '${TERM-}' does not support foreground colors" >&2
         fi
         if tput setab 0 >/dev/null 2>&1; then
-            __lp_background_color() { ab_color="${_lp_ab_colors[$1+1]:=$(tput setab "$1")}"; }
+            __lp_background_color() { ab_color="${_lp_ab_colors[$1 + 1]:=$(tput setab "$1")}"; }
         elif tput AB 0 >/dev/null 2>&1; then
             # FreeBSD
-            __lp_background_color() { ab_color="${_lp_ab_colors[$1+1]:=$(tput AB "$1")}"; }
+            __lp_background_color() { ab_color="${_lp_ab_colors[$1 + 1]:=$(tput AB "$1")}"; }
         elif tput AB 0 0 0 >/dev/null 2>&1; then
             # OpenBSD
-            __lp_background_color() { ab_color="${_lp_ab_colors[$1+1]:=$(tput AB "$1" 0 0)}"; }
+            __lp_background_color() { ab_color="${_lp_ab_colors[$1 + 1]:=$(tput AB "$1" 0 0)}"; }
         else
             echo "liquidprompt: terminal '${TERM-}' does not support background colors" >&2
         fi
     fi
-    
+
     __lp_source_config
     __lp_set_prompt
 }
 
 # Return the username element
 _lp_username() {
-    if (( EUID == 0 )) || [[ "${USER-}" != "$(logname 2>/dev/null || printf '%s' "${LOGNAME-}")" ]]; then
+    if ((EUID == 0)) || [[ "${USER-}" != "$(logname 2>/dev/null || printf '%s' "${LOGNAME-}")" ]]; then
         # user is root or not login user
         ret="\u"
     else
@@ -205,5 +205,5 @@ _lp_agnoster_short_path() {
 }
 
 _lp_path() {
-    LP_PATH='$(eval "_lp_agnoster_short_path")' 
+    LP_PATH='$(eval "_lp_agnoster_short_path")'
 }
