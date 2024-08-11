@@ -83,17 +83,32 @@ __lp_separator_color() {
 __lp_set_prompt() {
     _lp_session
     _lp_path
+
     PS1=""
     if [[ -n "${LP_SESSION}" ]]; then
         if (( EUID == 0 )); then
-            __lp_separator_color $LP_COLOR_ROOT_SESSION_BG $LP_COLOR_PATH_BG
-            PS1+="${LP_COLOR_ROOT_SESSION}${LP_SESSION}${NO_COL}${_lp_separator_color}▌${NO_COL}"
+            local lp_active_segment_bg=$LP_COLOR_ROOT_SESSION_BG
+            local LP_COLOR_SESSION=${LP_COLOR_ROOT_SESSION}
         else
-            __lp_separator_color $LP_COLOR_USER_SESSION_BG $LP_COLOR_PATH_BG
-            PS1+="${LP_COLOR_USER_SESSION}${LP_SESSION}${NO_COL}${_lp_separator_color}▌${NO_COL}"
+            local lp_active_segment_bg=$LP_COLOR_USER_SESSION_BG
+            local LP_COLOR_SESSION=${LP_COLOR_USER_SESSION}
         fi
+        if [[ -z "${PS1}" ]]; then
+            # if first segment
+            __lp_separator_color $lp_active_segment_bg
+            PS1+="${NO_COL}${_lp_separator_color}▐${NO_COL}"
+        fi
+        __lp_separator_color $lp_active_segment_bg $LP_COLOR_PATH_BG
+        PS1+="${LP_COLOR_SESSION}${LP_SESSION}${NO_COL}${_lp_separator_color}▌${NO_COL}"
     fi
-    __lp_separator_color $LP_COLOR_PATH_BG
+
+    local lp_active_segment_bg=$LP_COLOR_PATH_BG
+    if [[ -z "${PS1}" ]]; then
+        # if first segment
+        __lp_separator_color $lp_active_segment_bg
+        PS1+="${NO_COL}${_lp_separator_color}▐${NO_COL}"
+    fi
+    __lp_separator_color $lp_active_segment_bg
     PS1+="${LP_COLOR_PATH}${LP_PATH}${NO_COL}${_lp_separator_color}▌${NO_COL}"
 }
 
