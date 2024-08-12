@@ -170,13 +170,13 @@ _lp_username() {
 # Return the hostname element
 _lp_hostname() {
     if [[ "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
-        ret="\h PBS"
+        ret="\h│PBS"
     elif [[ -n "${SLURM_JOB_ID}" || -n "${SLURM_PTY_PORT}" ]]; then
-        ret="\h Slurm"
+        ret="\h│Slurm"
     elif [[ -n "${SSH_CLIENT-}${SSH2_CLIENT-}${SSH_TTY-}" ]]; then
         ret="\h"
     elif [[ -n ${REMOTEHOST-} ]]; then
-        ret="\h TEL"
+        ret="\h│TEL"
     else
         ret=""
     fi
@@ -188,7 +188,7 @@ _lp_session() {
     LP_SESSION=$ret
     _lp_hostname
     if [[ -n $LP_SESSION && -n $ret ]]; then
-        LP_SESSION="${LP_SESSION} ${ret}"
+        LP_SESSION="${LP_SESSION}@{ret}"
     else
         LP_SESSION="${LP_SESSION}${ret}"
     fi
@@ -207,3 +207,5 @@ _lp_agnoster_short_path() {
 _lp_path() {
     LP_PATH='$(eval "_lp_agnoster_short_path")'
 }
+
+lp_activate

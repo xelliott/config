@@ -37,7 +37,6 @@ export HISTCONTROL=ignoredups
 ########################
 # do source config files
 source ${CDIR}/prompt.sh
-lp_activate
 
 SHELL_INTEGRATION_SKIP_CWD=1
 source ${CDIR}/shell_integration.sh
