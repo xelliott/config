@@ -24,19 +24,6 @@ if test -n "${BASH_VERSION-}"; then
             ret="${ret//\`/\\\`}"
         fi
     }
-
-    __lp_strip_escapes() {
-        ret="$1"
-        while [[ "$ret" == *"$_LP_OPEN_ESC"* ]]; do
-            ret="${ret%%"$_LP_OPEN_ESC"*}${ret#*"$_LP_CLOSE_ESC"}"
-        done
-
-        ret="${ret//\\\\/\\}"
-        if shopt -q promptvars; then
-            ret="${ret//\\\$/\$}"
-            ret="${ret//\\\`/\`}"
-        fi
-    }
 fi
 
 # Load the user configuration and setup defaults.
@@ -194,18 +181,13 @@ _lp_session() {
     fi
 }
 
-_lp_agnoster_short_path() {
-    local LP_tilde="~"
-    local LP_PWD='$(echo -n "${PWD/#$HOME/$LP_tilde}" | awk -F "/" '"'"'{ if (length($0) > 12) { if (NF>3) print $1 "/…/" $(NF-1) "/" $NF; else if (NF==3) print $1 "/…/" $NF; else print $0; } else print $0;}'"'"')'
-
-    local ret
-    __lp_escape $(eval "echo ${LP_PWD}")
-    LP_PWD="$ret"
-    echo "$LP_PWD"
+_lp_eval_path() {
+    local shorted_path=$(${CDIR}/tools/prompt_path)
+    echo $shorted_path
 }
 
 _lp_path() {
-    LP_PATH='$(eval "_lp_agnoster_short_path")'
+    LP_PATH='$(eval "_lp_eval_path")'
 }
 
 lp_activate
