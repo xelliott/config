@@ -26,77 +26,84 @@ if test -n "${BASH_VERSION-}"; then
     }
 fi
 
-# Load the user configuration and setup defaults.
-# shellcheck disable=SC2034
-__lp_source_config() {
+__lp_segment_separator() {
+    local left_bg=$1
+    local right_bg=$2
 
     local af_color='' ab_color=''
-
-    # Colors: variables are local so they will have a value only
-    # during config loading and will not conflict with other values
-    # with the same names defined by the user outside the config.
-
-    # NO_COL is special: it will be used at runtime, not just during config loading
-    NO_COL="${_LP_OPEN_ESC}${_LP_TI_RESET-}${_LP_CLOSE_ESC}"
-
-    LP_COLOR_PATH_BG=7 # white
-    __lp_background_color $LP_COLOR_PATH_BG
-    LP_COLOR_PATH="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${ab_color}${_LP_CLOSE_ESC}"
-
-    LP_COLOR_USER_SESSION_BG=4 # blue
-    __lp_background_color $LP_COLOR_USER_SESSION_BG
-    __lp_foreground_color 7 # white
-    LP_COLOR_USER_SESSION="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
-    LP_COLOR_ROOT_SESSION_BG=1 # red
-    __lp_background_color $LP_COLOR_ROOT_SESSION_BG
-    __lp_foreground_color 7 # white
-    LP_COLOR_ROOT_SESSION="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
-}
-
-__lp_separator_color() {
-    local block_bg=$1
-    local next_bg=${2:-}
-
-    local af_color='' ab_color=''
-    __lp_foreground_color $block_bg
-    if [[ -n $next_bg ]]; then
-        __lp_background_color $next_bg
-        _lp_separator_color="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
+    local separator_style=''
+    if [[ -z "${left_bg}" && -z "${right_bg}" ]]; then
+        ret="${_LP_STYLE_RESET} ${_LP_STYLE_RESET}"
+    elif [[ -n "${left_bg}" && -n "${right_bg}" ]]; then
+        __lp_background_color $left_bg
+        __lp_foreground_color $right_bg
+        separator_style="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
+        ret="${_LP_STYLE_RESET}${separator_style}▌${_LP_STYLE_RESET}"
+    elif [[ -z "${left_bg}" ]]; then
+        __lp_foreground_color $right_bg
+        separator_style="${_LP_OPEN_ESC}${af_color}${_LP_CLOSE_ESC}"
+        ret="${_LP_STYLE_RESET}${separator_style}▐${_LP_STYLE_RESET}"
     else
-        _lp_separator_color="${_LP_OPEN_ESC}${af_color}${_LP_CLOSE_ESC}"
+        __lp_foreground_color $left_bg
+        separator_style="${_LP_OPEN_ESC}${af_color}${_LP_CLOSE_ESC}"
+        ret="${_LP_STYLE_RESET}${separator_style}▌${_LP_STYLE_RESET}"
     fi
 }
 
 __lp_set_prompt() {
-    _lp_session
-    _lp_path
+    _LP_STYLE_RESET="${_LP_OPEN_ESC}${_LP_TI_RESET-}${_LP_CLOSE_ESC}"
+
+    local LP_COLOR_PATH_BG=7         # white
+    local LP_COLOR_USER_SESSION_BG=4 # blue
+    local LP_COLOR_ROOT_SESSION_BG=1 # red
+    local LP_COLOR_SESSION_FG=7      # white
 
     PS1=""
+
+    # Colors and styles: variables are local so they will have a value only
+    # during config loading and will not conflict with other values
+    # with the same names defined by the user outside the config.
+    local af_color='' ab_color=''
+    local lp_last_segment_bg=""
+    local lp_active_segment_bg="" lp_active_segment_fg=""
+    local lp_separator_color=''
+    local active_style=''
+    local ret=''
+
+    # Session segment
+    _lp_session # Call the function to get the PS1 of this segment
     if [[ -n "${LP_SESSION}" ]]; then
         if ((EUID == 0)); then
-            local lp_active_segment_bg=$LP_COLOR_ROOT_SESSION_BG
-            local LP_COLOR_SESSION=${LP_COLOR_ROOT_SESSION}
+            lp_active_segment_bg=$LP_COLOR_ROOT_SESSION_BG
         else
-            local lp_active_segment_bg=$LP_COLOR_USER_SESSION_BG
-            local LP_COLOR_SESSION=${LP_COLOR_USER_SESSION}
+            lp_active_segment_bg=$LP_COLOR_USER_SESSION_BG
         fi
-        if [[ -z "${PS1}" ]]; then
-            # if first segment
-            __lp_separator_color $lp_active_segment_bg
-            PS1+="${NO_COL}${_lp_separator_color}▐${NO_COL}"
-        fi
-        __lp_separator_color $lp_active_segment_bg $LP_COLOR_PATH_BG
-        PS1+="${LP_COLOR_SESSION}${LP_SESSION}${NO_COL}${_lp_separator_color}▌${NO_COL}"
-    fi
+        lp_active_segment_fg=$LP_COLOR_SESSION_FG
 
-    local lp_active_segment_bg=$LP_COLOR_PATH_BG
-    if [[ -z "${PS1}" ]]; then
-        # if first segment
-        __lp_separator_color $lp_active_segment_bg
-        PS1+="${NO_COL}${_lp_separator_color}▐${NO_COL}"
+        __lp_segment_separator "$lp_last_segment_bg" "$lp_active_segment_bg"
+        PS1+="$ret"
+
+        __lp_background_color $lp_active_segment_bg
+        __lp_foreground_color $lp_active_segment_fg
+        active_style="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
+        PS1+="${active_style}${LP_SESSION}"
     fi
-    __lp_separator_color $lp_active_segment_bg
-    PS1+="${LP_COLOR_PATH}${LP_PATH}${NO_COL}${_lp_separator_color}▌${NO_COL}"
+    lp_last_segment_bg=$lp_active_segment_bg
+    unset LP_SESSION
+
+    # Path segment
+    lp_active_segment_bg=$LP_COLOR_PATH_BG
+    __lp_segment_separator "$lp_last_segment_bg" "$lp_active_segment_bg"
+    PS1+="$ret"
+
+    __lp_background_color $lp_active_segment_bg
+    active_style="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${ab_color}${_LP_CLOSE_ESC}"
+    # PS1+="${active_style}${LP_PATH}"
+    PS1+="${active_style}"'$(_lp_eval_path)'
+
+    # Ending separator
+    __lp_segment_separator "$lp_active_segment_bg" ""
+    PS1+="$ret"
 }
 
 lp_activate() {
@@ -140,22 +147,22 @@ lp_activate() {
         fi
     fi
 
-    __lp_source_config
     __lp_set_prompt
 }
 
-# Return the username element
-_lp_username() {
+_lp_session() {
+    local ret=''
+
+    # username element
     if ((EUID == 0)) || [[ "${USER-}" != "$(logname 2>/dev/null || printf '%s' "${LOGNAME-}")" ]]; then
         # user is root or not login user
         ret="\u"
     else
         ret=""
     fi
-}
+    LP_SESSION=$ret
 
-# Return the hostname element
-_lp_hostname() {
+    # hostname element
     if [[ "x${PBS_ENVIRONMENT}" == "xPBS_INTERACTIVE" ]]; then
         ret="\h│PBS"
     elif [[ -n "${SLURM_JOB_ID}" || -n "${SLURM_PTY_PORT}" ]]; then
@@ -167,13 +174,8 @@ _lp_hostname() {
     else
         ret=""
     fi
-}
 
-_lp_session() {
     # concat usename and hostname elements with space if both are non-empty
-    _lp_username
-    LP_SESSION=$ret
-    _lp_hostname
     if [[ -n $LP_SESSION && -n $ret ]]; then
         LP_SESSION="${LP_SESSION}@{ret}"
     else
@@ -182,12 +184,9 @@ _lp_session() {
 }
 
 _lp_eval_path() {
-    local shorted_path=$(${CDIR}/tools/prompt_path)
-    echo $shorted_path
-}
-
-_lp_path() {
-    LP_PATH='$(eval "_lp_eval_path")'
+    echo $(${CDIR}/tools/prompt_path)
 }
 
 lp_activate
+unset -f __lp_escape __lp_segment_separator __lp_set_prompt lp_activate _lp_session
+unset _LP_OPEN_ESC _LP_CLOSE_ESC _LP_TI_RESET _LP_TI_BOLD _LP_TI_UNDERLINE _LP_TI_COLORS
