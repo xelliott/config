@@ -35,8 +35,8 @@ __lp_segment_separator() {
     if [[ -z "${left_bg}" && -z "${right_bg}" ]]; then
         ret="${_LP_STYLE_RESET} ${_LP_STYLE_RESET}"
     elif [[ -n "${left_bg}" && -n "${right_bg}" ]]; then
-        __lp_background_color $left_bg
-        __lp_foreground_color $right_bg
+        __lp_background_color $right_bg
+        __lp_foreground_color $left_bg
         separator_style="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
         ret="${_LP_STYLE_RESET}${separator_style}▌${_LP_STYLE_RESET}"
     elif [[ -z "${left_bg}" ]]; then
