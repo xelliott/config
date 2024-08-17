@@ -9,6 +9,15 @@ if [[ $- != *i* ]]; then
 	return
 fi
 
+# Check if LC_ALL is set
+if [ -n "$LC_ALL" ]; then
+    # Check if LC_ALL is not equal to LANG
+    if [[ -n "$LC_ALL" && "$LC_ALL" != "$LANG" ]]; then
+        echo "Warning: LC_ALL is set but does not match LANG. Setting LC_ALL to LANG."
+        export LC_ALL="$LANG"
+    fi
+fi
+
 CDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 shopt | grep -q '^direxpand\b' && shopt -s direxpand
