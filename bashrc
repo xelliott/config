@@ -37,6 +37,7 @@ shopt -s histappend
 
 # Prevent logging of repeated identical commands
 export HISTCONTROL=ignoredups
+export HISTSIZE=5000
 
 #################
 # CONFIGURATION #
