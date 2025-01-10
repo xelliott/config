@@ -183,7 +183,7 @@ _lp_session() {
 
     # concat usename and hostname elements with space if both are non-empty
     if [[ -n $LP_SESSION && -n $ret ]]; then
-        LP_SESSION="${LP_SESSION}@{ret}"
+        LP_SESSION="${LP_SESSION}@${ret}"
     else
         LP_SESSION="${LP_SESSION}${ret}"
     fi
