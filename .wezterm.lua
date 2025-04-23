@@ -28,7 +28,7 @@ config.enable_scroll_bar = true
 -- 	"JuliaMono",
 -- })
 -- config.font_size = 11.0
-local firacode_features = { "cv02" }
+local firacode_features = { "cv02", "zero", "ss03", "calt=0", "clig=0", "liga=0" }
 config.font = wezterm.font_with_fallback({
 	{
 		family = "FiraCode Nerd Font Mono",
@@ -87,7 +87,8 @@ config.hyperlink_rules = wezterm.default_hyperlink_rules()
 table.remove(config.hyperlink_rules)
 
 -- the color scheme:
-config.color_scheme = "Catppuccin Latte (Gogh)"
+-- config.color_scheme = "Catppuccin Latte (Gogh)"
+config.color_scheme = "dayfox"
 
 config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
