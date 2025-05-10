@@ -8,11 +8,7 @@
 # terminals are good at ignoring OSC sequences that they don't understand, but
 # if not there are some bypasses:
 #
-# WEZTERM_SHELL_SKIP_ALL - disables all
-# WEZTERM_SHELL_SKIP_SEMANTIC_ZONES - disables zones
-# WEZTERM_SHELL_SKIP_CWD - disables OSC 7 cwd setting
-# WEZTERM_SHELL_SKIP_USER_VARS - disable user vars that capture information
-#                                about running programs
+# SHELL_INTEGRATION_SKIP_SEMANTIC_ZONES - disables zones
 
 # shellcheck disable=SC2166
 if [ -z "${BASH_VERSION}" -a -z "${ZSH_NAME}" ] ; then
@@ -427,24 +423,6 @@ if [[ ! -n "$BLE_VERSION" ]]; then
   __wezterm_install_bash_prexec
 fi
 
-# This function emits an OSC 7 sequence to inform the terminal
-# of the current working directory.  It prefers to use a helper
-# command provided by wezterm if wezterm is installed, but falls
-# back to a simple printf command otherwise.
-__wezterm_osc7() {
-  # if hash wezterm 2>/dev/null ; then
-  #   wezterm set-working-directory 2>/dev/null && return 0
-  #   # If the command failed (perhaps the installed wezterm
-  #   # is too old?) then fall back to the simple version below.
-  # fi
-  printf "\033]7;file://%s%s\033\\" "${HOSTNAME}" "${PWD}"
-}
-
-__wt_osc9_9() {
-    _win_path=$(wslpath -m $(pwd))
-    printf "\033]9;9;%s\033\\" "$_win_path"
-}
-
 # The semantic precmd and prexec functions generate semantic
 # zones, marking up the prompt, the user input and the command
 # output so that the terminal can better reason about the display.
@@ -489,16 +467,3 @@ if [[ -z "${SHELL_INTEGRATION_SKIP_SEMANTIC_ZONES}" ]]; then
   precmd_functions+=(__wezterm_semantic_precmd)
   preexec_functions+=(__wezterm_semantic_preexec)
 fi
-
-# Register the various functions; take care to perform osc7 after
-# the semantic zones as we don't want to perturb the last command
-# status before we've had a chance to report it to the terminal
-if [[ -z "${SHELL_INTEGRATION_SKIP_CWD}" ]] ; then
-  if [[ -n "${WSLENV:-}" && -n "${WT_SESSION:-}" ]]; then
-    precmd_functions+=(__wt_osc9_9)
-  else
-    precmd_functions+=(__wezterm_osc7)
-  fi
-fi
-
-true

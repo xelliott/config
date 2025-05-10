@@ -48,7 +48,6 @@ export HISTSIZE=5000
 # do source config files
 source ${CDIR}/prompt.sh
 
-SHELL_INTEGRATION_SKIP_CWD=1
 source ${CDIR}/shell_integration.sh
 
 # __term_resize_shell() {
