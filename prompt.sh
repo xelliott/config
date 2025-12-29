@@ -60,6 +60,7 @@ __lp_set_prompt() {
     _LP_STYLE_RESET="${_LP_OPEN_ESC}${_LP_TI_RESET-}${_LP_CLOSE_ESC}"
 
     local LP_COLOR_PATH_BG=7         # white
+    local LP_COLOR_PATH_FG=0         # black
     local LP_COLOR_USER_SESSION_BG=4 # blue
     local LP_COLOR_ROOT_SESSION_BG=1 # red
     local LP_COLOR_SESSION_FG=7      # white
@@ -99,11 +100,13 @@ __lp_set_prompt() {
 
     # Path segment
     lp_active_segment_bg=$LP_COLOR_PATH_BG
+    lp_active_segment_fg=$LP_COLOR_PATH_FG
     __lp_segment_separator "$lp_last_segment_bg" "$lp_active_segment_bg"
     PS1+="$ret"
 
     __lp_background_color $lp_active_segment_bg
-    active_style="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${ab_color}${_LP_CLOSE_ESC}"
+    __lp_foreground_color $lp_active_segment_fg
+    active_style="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${af_color}${ab_color}${_LP_CLOSE_ESC}"
     # PS1+="${active_style}${LP_PATH}"
     PS1+="${active_style}"'$(_lp_eval_path)'
 
