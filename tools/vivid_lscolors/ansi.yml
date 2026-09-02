@@ -18,74 +18,88 @@ core:
   regular_file: {}
   reset_to_normal: {}
 
+  # Directories
   directory:
     foreground: blue
 
+  sticky:
+    foreground: blue
+    font-style: bold
+
+  other_writable:
+    foreground: blue
+    font-style: underline
+
+  sticky_other_writable:
+    foreground: blue
+    font-style: [bold, underline]
+
+  # Executables
+  executable_file:
+    foreground: yellow
+    font-style: bold
+
+  setuid:
+    foreground: yellow
+    font-style: [bold, underline]
+
+  setgid:
+    foreground: yellow
+    font-style: [bold, underline]
+
+  # Symlinks
   symlink:
-    foreground: pink
-
-  multi_hard_link: {}
-
-  fifo:
-    foreground: black
-    background: blue
-
-  socket:
-    foreground: black
-    background: pink
-
-  door:
-    foreground: black
-    background: pink
-
-  block_device:
     foreground: cyan
-    background: darkergray
-
-  character_device:
-    foreground: pink
-    background: darkergray
+    font-style: italic
 
   broken_symlink:
-    foreground: black
-    background: red
+    foreground: red
+    font-style: italic
 
   missing_symlink_target:
-    foreground: black
-    background: red
-
-  setuid: {}
-
-  setgid: {}
-
-  file_with_capability: {}
-
-  sticky_other_writable: {}
-
-  other_writable: {}
-
-  sticky: {}
-
-  executable_file:
     foreground: red
     font-style: bold
 
-text:
-  special:
-    # foreground: white
-    background: yellow
+  multi_hard_link: {}
 
-  todo:
+  # IPC files
+  fifo:
+    foreground: pink
+
+  socket:
+    foreground: pink
     font-style: bold
 
-  licenses:
-    foreground: gray
+  door:
+    foreground: pink
+    font-style: bold
+
+  # Devices
+  block_device:
+    foreground: green
+    font-style: [bold, underline]
+
+  character_device:
+    foreground: green
+    font-style: bold
+
+  file_with_capability: {}
+
+text:
+  special:
+    foreground: yellow
+    font-style: bold
+
+  todo:
+    foreground: yellow
+    font-style: bold
+
+  licenses: {}
 
   configuration:
     foreground: yellow
 
-  other:
-    foreground: yellow
+  other: {}
 
 markup:
   foreground: yellow

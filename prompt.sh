@@ -59,7 +59,7 @@ __lp_segment_separator() {
 __lp_set_prompt() {
     _LP_STYLE_RESET="${_LP_OPEN_ESC}${_LP_TI_RESET-}${_LP_CLOSE_ESC}"
 
-    local LP_COLOR_PATH_BG=7         # white
+    local LP_COLOR_PATH_BG=15         # white
     local LP_COLOR_PATH_FG=0         # black
     local LP_COLOR_USER_SESSION_BG=4 # blue
     local LP_COLOR_ROOT_SESSION_BG=1 # red
