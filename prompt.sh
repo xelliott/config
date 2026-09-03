@@ -59,11 +59,9 @@ __lp_segment_separator() {
 __lp_set_prompt() {
     _LP_STYLE_RESET="${_LP_OPEN_ESC}${_LP_TI_RESET-}${_LP_CLOSE_ESC}"
 
-    local LP_COLOR_PATH_BG=15         # white
-    local LP_COLOR_PATH_FG=0         # black
+    local LP_COLOR_PATH_BG=6         # cyan
     local LP_COLOR_USER_SESSION_BG=4 # blue
     local LP_COLOR_ROOT_SESSION_BG=1 # red
-    local LP_COLOR_SESSION_FG=7      # white
 
     PS1=""
 
@@ -85,14 +83,11 @@ __lp_set_prompt() {
         else
             lp_active_segment_bg=$LP_COLOR_USER_SESSION_BG
         fi
-        lp_active_segment_fg=$LP_COLOR_SESSION_FG
-
         __lp_segment_separator "$lp_last_segment_bg" "$lp_active_segment_bg"
         PS1+="$ret"
 
-        __lp_background_color $lp_active_segment_bg
-        __lp_foreground_color $lp_active_segment_fg
-        active_style="${_LP_OPEN_ESC}${af_color}${ab_color}${_LP_CLOSE_ESC}"
+        __lp_foreground_color $lp_active_segment_bg
+        active_style="${_LP_OPEN_ESC}${_LP_TI_REVERSE-}${af_color}${_LP_CLOSE_ESC}"
         PS1+="${active_style}${LP_SESSION}"
     fi
     lp_last_segment_bg=$lp_active_segment_bg
@@ -100,13 +95,11 @@ __lp_set_prompt() {
 
     # Path segment
     lp_active_segment_bg=$LP_COLOR_PATH_BG
-    lp_active_segment_fg=$LP_COLOR_PATH_FG
     __lp_segment_separator "$lp_last_segment_bg" "$lp_active_segment_bg"
     PS1+="$ret"
 
-    __lp_background_color $lp_active_segment_bg
-    __lp_foreground_color $lp_active_segment_fg
-    active_style="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${af_color}${ab_color}${_LP_CLOSE_ESC}"
+    __lp_foreground_color $lp_active_segment_bg
+    active_style="${_LP_OPEN_ESC}${_LP_TI_BOLD-}${_LP_TI_REVERSE-}${af_color}${_LP_CLOSE_ESC}"
     # PS1+="${active_style}${LP_PATH}"
     PS1+="${active_style}"'$(_lp_eval_path)'
 
@@ -128,6 +121,7 @@ lp_activate() {
     else
         _LP_TI_RESET="$({ tput sgr0 || tput me; } 2>/dev/null)"
         _LP_TI_BOLD="$({ tput bold || tput md; } 2>/dev/null)"
+        _LP_TI_REVERSE="$({ tput rev || tput mr; } 2>/dev/null)"
         _LP_TI_UNDERLINE="$({ tput smul || tput us; } 2>/dev/null)"
         _LP_TI_COLORS="$(tput colors 2>/dev/null)"
         _LP_TI_COLORS=${_LP_TI_COLORS:-8}
@@ -198,4 +192,4 @@ _lp_eval_path() {
 
 lp_activate
 unset -f __lp_escape __lp_segment_separator __lp_set_prompt lp_activate _lp_session
-unset _LP_OPEN_ESC _LP_CLOSE_ESC _LP_TI_RESET _LP_TI_BOLD _LP_TI_UNDERLINE _LP_TI_COLORS
+unset _LP_OPEN_ESC _LP_CLOSE_ESC _LP_TI_RESET _LP_TI_BOLD _LP_TI_REVERSE _LP_TI_UNDERLINE _LP_TI_COLORS
